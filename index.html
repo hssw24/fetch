@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Seite mit Import</title>
+
+    <style>
+        /* Einfaches, fingerfreundliches Design */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        /* Container-Styling für bessere Lesbarkeit */
+        .content-box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 { color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="content-box">
+        <h1>Teil A</h1>
+        <p>Dies ist der oberste Text-Bereich der Hauptseite.</p>
+    </div>
+
+    <div id="platzhalter-b" class="content-box">
+        <p><em>Lade Inhalt B...</em></p>
+    </div>
+
+    <div class="content-box">
+        <h2>Teil C</h2>
+        <p>Dies ist der untere Text-Bereich, der nach dem Einfügen folgt.</p>
+    </div>
+
+    <script>
+        // Funktion zum Laden der Datei
+        // Wir suchen die Datei 'datei-b.html'
+        fetch('datei-b.html')
+            .then(response => {
+                // Prüfen, ob die Datei gefunden wurde (Status 200)
+                if (!response.ok) {
+                    throw new Error('Netzwerkantwort war nicht ok');
+                }
+                return response.text(); // Den Textinhalt extrahieren
+            })
+            .then(htmlCode => {
+                // Den Platzhalter B suchen
+                const container = document.getElementById('platzhalter-b');
+                // Den geladenen HTML-Code einfügen
+                container.innerHTML = htmlCode;
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden:', error);
+                document.getElementById('platzhalter-b').innerHTML = "<p>Fehler beim Laden von B.</p>";
+            });
+    </script>
+
+</body>
+</html>
